@@ -14,6 +14,8 @@ function Product() {
                     <p>🌟</p>
                 </div>
             </div>
+            <img src="https://images-na.ssl-images-amazon.com/images/I/81-QB7nDh4L.jpg" alt="The lean startup" />
+            <button>Add to basket</button>
         </div>
     )
 }
