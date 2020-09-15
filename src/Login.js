@@ -1,8 +1,40 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import { auth } from './firebase'
+import React, { useState } from 'react'
+import { Link, useHistory } from 'react-router-dom'
 import './Login.css'
 
 function Login() {
+
+    const history = useHistory()
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+
+    const signIn = e => {
+        e.preventDefault()
+        // fancy firebase stuff
+        auth
+            .signInWithEmailAndPassword(email, password)
+            .then(auth => {
+                history.push('/')
+            })
+            .catch(error => alert(error.message))
+    }
+
+    const register = e => {
+        e.preventDefault()
+
+        auth
+            .createUserWithEmailAndPassword(email, password)
+            .then((auth) => {
+
+                // succesfully created user
+                if (auth) {
+                    history.push('/')
+                }
+            })
+            .catch(error => alert(error.message))
+    }
+
     return (
         <div className='login'>
 
@@ -15,12 +47,14 @@ function Login() {
 
                 <form>
                     <h5>E-mail</h5>
-                    <input type='text' />
+                    <input type='text' value={email}
+                        onChange={e => setEmail(e.target.value)} />
 
                     <h5>Password</h5>
-                    <input type='password' />
+                    <input type='password' value={password}
+                        onChange={e => setPassword(e.target.value)} />
 
-                    <button className='login__signInButton'>Sign In</button>
+                    <button className='login__signInButton' onClick={signIn} type='submit'>Sign In</button>
 
                 </form>
 
@@ -28,7 +62,7 @@ function Login() {
                     By continuing, you agree to Zonama's Conditions of Use and Privacy Notice.
                 </p>
 
-                <button className='login__registerButton'>Create Your Zonama Account</button>
+                <button className='login__registerButton' onClick={register}>Create Your Zonama Account</button>
 
             </div>
         </div>
