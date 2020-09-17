@@ -7,6 +7,7 @@ import Checkout from './Checkout'
 import Login from './Login';
 import { auth } from './firebase';
 import { useStateValue } from './StateProvider';
+import Payment from './Payment';
 
 function App() {
 
@@ -17,7 +18,7 @@ function App() {
 
     auth.onAuthStateChanged(authUser => {
       console.log('user is: ', authUser)
-      
+
       if (authUser) {
         // loged in user
 
@@ -38,7 +39,7 @@ function App() {
 
   }, [])
 
-  
+
   return (
     <Router>
       <div className="app">
@@ -52,6 +53,12 @@ function App() {
             {/* header*/}
             <Header />
             <Checkout />
+          </Route>
+
+          <Route path='/payment'>
+            {/* header*/}
+            <Header />
+            <Payment />
           </Route>
 
           <Route path='/'>
