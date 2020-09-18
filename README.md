@@ -9,7 +9,7 @@ Building an amazon clone using react js and hosting
 
 - [x] Checkout page
 - [ ] Payment processing functionality using stripe
-- [ ] Firebase cloud functions (process stripe payments)
+- [ ] Firebase cloud functions (handle stripe payments)
 - [ ] Store orders for logged in users(Firestore)
 
 ### Available Scripts
