@@ -7,6 +7,11 @@ import Checkout from './Checkout'
 import Login from './Login';
 import { auth } from './firebase';
 import { useStateValue } from './StateProvider';
+import Payment from './Payment';
+import { loadStripe } from '@stripe/stripe-js'
+import { Elements } from '@stripe/react-stripe-js'
+
+const promise = loadStripe('pk_test_51HSiAdDjXQGBrYZITEmlOrmOrutNvnxC2f5oyr51lKW8fczrepaU3zVVJY9ndturoSagqSc7eahtJJvDWYC4Z9kg00IfojvxAC')
 
 function App() {
 
@@ -17,7 +22,7 @@ function App() {
 
     auth.onAuthStateChanged(authUser => {
       console.log('user is: ', authUser)
-      
+
       if (authUser) {
         // loged in user
 
@@ -38,7 +43,7 @@ function App() {
 
   }, [])
 
-  
+
   return (
     <Router>
       <div className="app">
@@ -52,6 +57,15 @@ function App() {
             {/* header*/}
             <Header />
             <Checkout />
+          </Route>
+
+          <Route path='/payment'>
+            {/* header*/}
+            <Header />
+            
+            <Elements stripe={promise}>
+              <Payment />
+            </Elements>
           </Route>
 
           <Route path='/'>
