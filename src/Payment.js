@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './Payment.css'
 import { useStateValue } from './StateProvider'
 import CheckoutProduct from './CheckoutProduct'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js'
 import CurrencyFormat from 'react-currency-format'
 import { getBasketTotal } from './reducer'
+import axios from './axios'
 
 function Payment() {
 
@@ -19,8 +20,41 @@ function Payment() {
     const [succeeded, setSucceeded] = useState(false)
     const [processing, setProcessing] = useState('')
 
-    const handleSubmit = e => {
+    const [clientSecret, setClientSecret] = useState(true)
 
+    const history = useHistory()
+
+    useEffect(() => {
+        // generate special stripe secret but when basket changes generate new secret
+        const getClientSecret = async () => {
+            const response = await axios({
+                method: 'post',
+                //stripe expects the total in a currencies subunits e.g dollars -> cents (convert to cents)
+                url: `/payments/create?total=${getBasketTotal(basket) * 100}`
+            })
+
+            setClientSecret(response.data.clientSecret)
+        }
+        getClientSecret()
+    }, [basket])
+
+    const handleSubmit = async (event) => {
+        // fancy stripe stuff
+        event.preventDefault()
+        setProcessing(true)
+
+        // stripe sorcery
+        const payload = await stripe.confirmCardPayment(clientSecret, {
+            payment_method: {
+                card: elements.getElement(CardElement)
+            }
+        }).then(({ paymentIntent }) => { // destructure the response -> paymentIntent == payment confirmation from stripe
+            setSucceeded(true)
+            setError(null)
+            setProcessing(false)
+
+            history.replace('/orders')
+        })
     }
 
     const handleChange = event => {
