@@ -1,5 +1,5 @@
 ## Amazon Clone using react
-Building an amazon clone using react js and hosting 
+Building an amazon clone using react js and hosting on netlify and firebase
 
 ### Task list
 
