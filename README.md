@@ -1,5 +1,5 @@
 ## Amazon Clone using react
-Building an amazon clone using react js and hosting 
+Building an amazon clone using react js and hosting on netlify and firebase
 
 ### Task list
 
@@ -10,7 +10,7 @@ Building an amazon clone using react js and hosting
 - [x] Checkout page
 - [x] Payment processing functionality using stripe
 - [x] Firebase cloud functions (handle stripe payments)
-- [ ] Store orders for logged in users(Firestore)
+- [x] Store orders for logged in users(Firestore)
 
 ### Available Scripts
 
